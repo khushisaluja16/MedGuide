@@ -1,9 +1,27 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import logo from "../images/logo.png";
+import logo    from "../images/logo.png";
 import userImg from "../images/user.png";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Auto-detect which page we're on from the URL — no props needed
+  const pathMap = {
+    "/dashboard": "dashboard",
+    "/report":    "report",
+    "/profile":   "profile",
+  };
+  const current = pathMap[location.pathname] || "";
+
+  const links = [
+    { id: "dashboard", label: "Dashboard", path: "/dashboard" },
+    { id: "report",   label: "Reports",   path: "/report"    },
+    { id: "profile",   label: "Profile",   path: "/profile"   },
+  ];
+
   return (
     <div
       style={{
@@ -18,21 +36,17 @@ function Navbar() {
         marginBottom: "30px"
       }}
     >
-      
-      {/* LEFT: LOGO */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        
+
+      {/* LEFT: LOGO — clicking it goes to dashboard */}
+      <div
+        onClick={() => navigate("/dashboard")}
+        style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}
+      >
         <img
           src={logo}
           alt="MedGuide Logo"
-          style={{
-            width: "38px",
-            height: "38px",
-            borderRadius: "50%",
-            objectFit: "cover"
-          }}
+          style={{ width: "38px", height: "38px", borderRadius: "50%", objectFit: "cover" }}
         />
-
         <span style={{ fontSize: "19px", fontWeight: "600", color: "#2b7de9" }}>
           MedGuide
         </span>
@@ -40,64 +54,49 @@ function Navbar() {
 
       {/* CENTER: NAV LINKS */}
       <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+        {links.map((link, i) => {
+          const isActive = current === link.id;
+          return (
+            <React.Fragment key={link.id}>
 
-        <span style={{
-          fontSize: "18px",
-          fontWeight: "700",
-          borderBottom: "3px solid #2b7de9",
-          paddingBottom: "4px"
-        }}>
-          Dashboard
-        </span>
+              {/* Divider between links */}
+              {i > 0 && (
+                <div style={{ width: "1px", height: "20px", background: "#aaa" }} />
+              )}
 
-        <div style={{
-          width: "1px",
-          height: "20px",
-          background: "#aaa"
-        }} />
+              <span
+                onClick={() => navigate(link.path)}
+                style={{
+                  fontSize:     isActive ? "18px"              : "17px",
+                  fontWeight:   isActive ? "700"               : "500",
+                  color:        isActive ? "#2b7de9"           : "#444",
+                  borderBottom: isActive ? "3px solid #2b7de9" : "3px solid transparent",
+                  paddingBottom: "4px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  userSelect: "none",
+                }}
+                onMouseEnter={e => { if (!isActive) e.target.style.color = "#2b7de9"; }}
+                onMouseLeave={e => { if (!isActive) e.target.style.color = "#444";    }}
+              >
+                {link.label}
+              </span>
 
-        <span style={{
-          fontSize: "17px",
-          fontWeight: "500",
-          color: "#444"
-        }}>
-          Reports
-        </span>
-
-        <div style={{
-          width: "1px",
-          height: "20px",
-          background: "#aaa"
-        }} />
-
-        <span style={{
-          fontSize: "17px",
-          fontWeight: "500",
-          color: "#444"
-        }}>
-          Profile
-        </span>
-
+            </React.Fragment>
+          );
+        })}
       </div>
 
       {/* RIGHT: USER */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-
         <span style={{ fontSize: "18px", fontWeight: "500", color: "#333" }}>
           Welcome, <b>User</b>
         </span>
-
         <img
           src={userImg}
           alt="User"
-          style={{
-            width: "35px",
-            height: "35px",
-            borderRadius: "50%",
-            objectFit: "cover"
-          }}
+          style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }}
         />
-
       </div>
 
     </div>

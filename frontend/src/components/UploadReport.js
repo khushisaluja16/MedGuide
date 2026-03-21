@@ -1,6 +1,7 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 function UploadReport({ cardStyle }) {
+  const navigate = useNavigate();
   return (
     <div
       style={cardStyle}
@@ -26,20 +27,22 @@ function UploadReport({ cardStyle }) {
       </p>
 
       {/* BUTTON */}
-      <button style={{
-        marginTop: "15px",
-        width: "100%",
-        padding: "12px",
-        background: "linear-gradient(90deg, #2b7de9, #4facfe)",
-        color: "white",
-        border: "none",
-        borderRadius: "12px",
-        fontWeight: "600",
-        cursor: "pointer"
-      }}>
-        Upload Image
-      </button>
-
+<button
+  onClick={() => navigate("/report")}
+  style={{
+    marginTop: "15px",
+    width: "100%",
+    padding: "12px",
+    background: "linear-gradient(90deg, #2b7de9, #4facfe)",
+    color: "white",
+    border: "none",
+    borderRadius: "12px",
+    fontWeight: "600",
+    cursor: "pointer"
+  }}
+>
+  Upload Image
+</button>
     </div>
   );
 }
