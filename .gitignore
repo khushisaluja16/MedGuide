@@ -12,3 +12,20 @@ venv/
 
 # OS files
 .DS_Store
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Node (if React frontend)
+node_modules/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store

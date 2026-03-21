@@ -2,7 +2,17 @@ import React from "react";
 
 function UploadReport({ cardStyle }) {
   return (
-    <div style={cardStyle}>
+    <div
+      style={cardStyle}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.12)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+      }}
+    >
 
       {/* HEADER */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>

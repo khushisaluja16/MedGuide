@@ -10,42 +10,49 @@ function Dashboard() {
     display: "flex",
     gap: "30px",
     width: "100%",
-    paddingLeft: "10px",
-    alignItems: "stretch"   
+    alignItems: "flex-start"
   };
 
-  const leftPanel = { width: "24%" };
-  const centerPanel = {
-    width: "48%",
+  const leftPanel = {
+    flex: 1,
     display: "flex",
     flexDirection: "column",
-    gap: "18px"   
+    gap: "18px"
   };
-  const rightPanel = { width: "28%" };
+  const centerPanel = {
+    flex: 2,
+    display: "flex",
+    flexDirection: "column",
+    gap: "18px"
+  };
+  const rightPanel = { flex: 1 };
 
   const card = {
-    background: "white",
+    background: "rgba(255,255,255,0.9)",
+    backdropFilter: "blur(12px)",
     padding: "18px 20px",
     borderRadius: "18px",
     marginBottom: "18px",
     boxShadow: "0 6px 14px rgba(0,0,0,0.08)",
+    transition: "all 0.25s ease",
   };
 
   const iconBox = {
-    width: "60px",
-    height: "60px",
+    width: "64px",
+    height: "64px",
     borderRadius: "16px",
     background: "#d9ecff",
     boxShadow: "0 6px 15px rgba(0,0,0,0.06)",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    transition: "0.2s ease"
   };
 
   const titleStyle = {
     margin: "0 0 6px 0",
     fontWeight: "600",
-    fontSize: "20px"
+    fontSize: "24px"
   };
 
   const descStyle = {
@@ -72,8 +79,8 @@ function Dashboard() {
   };
 
   const text = {
-    fontSize: "15.5px",  
-    color: "#374151",     
+    fontSize: "17px",
+    color: "#374151",
     lineHeight: "1.6"
   };
 
@@ -82,9 +89,10 @@ function Dashboard() {
       style={{
         minHeight: "100vh",
         width: "100%",
-        background: "linear-gradient(180deg, #8ec5fc, #e0f3ff)",
-        padding: "20px 30px",
-        boxSizing: "border-box"
+        background: "linear-gradient(135deg, #dbeafe, #bfdbfe, #e0f2fe)",
+        padding: "20px",
+        boxSizing: "border-box",
+        overflowX: "hidden"
       }}
     >
 
@@ -102,11 +110,21 @@ function Dashboard() {
         {/* CENTER PANEL */}
         <div style={centerPanel}>
 
-          <div style={{ ...card, flex: 1 }}>
+          <div
+            style={{ ...card, flex: 1 }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
 
             <h1 style={{
               marginBottom: "10px",
-              fontSize: "28px",
+              fontSize: "34px",
               fontWeight: "700"
             }}>
               What MedGuide Does
@@ -116,77 +134,121 @@ function Dashboard() {
               border: "none",
               height: "1px",
               background: "#e5e7eb",
-              marginBottom: "20px"
+              marginBottom: "35px"
             }} />
 
-            {/* ITEM 1 */}
-            <div style={{ display: "flex", gap: "18px", marginBottom: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                gap: "65px"
+              }}
+            >
 
-              <div style={iconBox}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <circle cx="11" cy="15" r="3" />
-                  <line x1="16" y1="20" x2="13.5" y2="17.5" />
-                </svg>
+              {/* ITEM 1 */}
+              <div style={{ display: "flex", gap: "18px" }}>
+
+                <div
+                  style={iconBox}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <circle cx="11" cy="15" r="3" />
+                    <line x1="16" y1="20" x2="13.5" y2="17.5" />
+                  </svg>
+                </div>
+
+                <div>
+                  <h3 style={titleStyle}>Analyze and Save Reports</h3>
+                  <p style={descStyle}>
+                    Upload an image of a handwritten prescription to extract medicine details.
+                  </p>
+                </div>
+
               </div>
 
-              <div>
-                <h3 style={titleStyle}>Analyze and Save Reports</h3>
-                <p style={descStyle}>
-                  Upload an image of a handwritten prescription to extract medicine details.
-                </p>
+              {/* ITEM 2 */}
+              <div style={{ display: "flex", gap: "18px" }}>
+
+                <div
+                  style={iconBox}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="18" rx="2" />
+                    <rect x="14" y="8" width="7" height="13" rx="2" />
+                    <line x1="3" y1="10" x2="10" y2="10" />
+                    <line x1="14" y1="14" x2="21" y2="14" />
+                  </svg>
+                </div>
+
+                <div>
+                  <h3 style={titleStyle}>Smart Medicine Insights</h3>
+                  <p style={descStyle}>
+                    Get detailed information on prescribed medicines, including composition,
+                    uses, and potential side effects.
+                  </p>
+                </div>
+
               </div>
 
-            </div>
+              {/* ITEM 3 */}
+              <div style={{ display: "flex", gap: "18px" }}>
 
-            {/* ITEM 2 */}
-            <div style={{ display: "flex", gap: "18px", marginBottom: "20px" }}>
+                <div
+                  style={iconBox}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15 15 0 0 1 0 20" />
+                    <path d="M12 2a15 15 0 0 0 0 20" />
+                  </svg>
+                </div>
 
-              <div style={iconBox}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="18" rx="2" />
-                  <rect x="14" y="8" width="7" height="13" rx="2" />
-                  <line x1="3" y1="10" x2="10" y2="10" />
-                  <line x1="14" y1="14" x2="21" y2="14" />
-                </svg>
+                <div>
+                  <h3 style={titleStyle}>Find Health Resources</h3>
+                  <p style={descStyle}>
+                    Find health resources, access reports, and explore health tools for clarity.
+                  </p>
+                </div>
+
               </div>
-
-              <div>
-                <h3 style={titleStyle}>Smart Medicine Insights</h3>
-                <p style={descStyle}>
-                  Get detailed information on prescribed medicines, including composition,
-                  uses, and potential side effects.
-                </p>
-              </div>
-
-            </div>
-
-            {/* ITEM 3 */}
-            <div style={{ display: "flex", gap: "18px" }}>
-
-              <div style={iconBox}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15 15 0 0 1 0 20" />
-                  <path d="M12 2a15 15 0 0 0 0 20" />
-                </svg>
-              </div>
-
-              <div>
-                <h3 style={titleStyle}>Find Health Resources</h3>
-                <p style={descStyle}>
-                  Find health resources, access reports, and explore health tools for clarity.
-                </p>
-              </div>
-
             </div>
 
           </div>
 
           {/* PREVIOUS REPORTS */}
-          <div style={card}>
+          <div
+            style={card}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
 
             <h3 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               📁 Previous Reports
@@ -204,14 +266,24 @@ function Dashboard() {
 
           </div>
 
-          
+
 
         </div>
 
         <div style={rightPanel}>
 
           {/* HEALTH TIPS */}
-          <div style={card}>
+          <div
+            style={card}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
             <div style={sectionHeader}>
               💚 <span>Health Tips</span>
             </div>
@@ -239,7 +311,17 @@ function Dashboard() {
           </div>
 
           {/* MEDICINE ALERTS */}
-          <div style={card}>
+          <div
+            style={card}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
             <div style={sectionHeader}>
               ⚠️ <span>Medicine Alerts</span>
             </div>
@@ -260,7 +342,17 @@ function Dashboard() {
           </div>
 
           {/* EMERGENCY CONTACTS */}
-          <div style={card}>
+          <div
+            style={card}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
             <div style={sectionHeader}>
               🚑 <span>Emergency Contacts</span>
             </div>
@@ -274,7 +366,7 @@ function Dashboard() {
             </div>
 
             <div style={row}>
-              ☠️ <span style={text}>Poison Control: 1066</span>
+              <span style={text}>Poison Control: 1066</span>
             </div>
           </div>
 
@@ -282,6 +374,7 @@ function Dashboard() {
 
       </div>
     </div>
+
   );
 }
 
