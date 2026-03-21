@@ -1,6 +1,7 @@
 import bg from '../images/image.png';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -11,8 +12,10 @@ function Register() {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
+
   const handleRegister = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    console.log("Register clicked"); // ✅ DEBUG
 
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
@@ -20,23 +23,23 @@ function Register() {
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+      const res = await axios.post("http://127.0.0.1:8000/register", {
+        username,
+        email,
+        password
       });
 
-      const data = await res.json();
+      console.log(res.data);
 
-      if (data.success) {
-        alert("Account created successfully! Please login.");
-        navigate("/");
+      if (res.data.success) {
+        navigate("/dashboard");
       } else {
-        alert(data.error || "Registration failed.");
+        alert(res.data.message);
       }
+
     } catch (err) {
       console.error(err);
-      alert("Server error. Please try again.");
+      alert("Server error");
     }
   };
 
@@ -48,7 +51,7 @@ function Register() {
         <div className="login-card">
           <h2>Create Account</h2>
 
-          <form onSubmit={handleRegister}>
+          <form>
 
             <div className="input-box">
               <i className="fa fa-user icon"></i>
@@ -102,7 +105,13 @@ function Register() {
               ></i>
             </div>
 
-            <button className="login-btn">Create Account</button>
+            <button
+              type="button"
+              className="login-btn"
+              onClick={handleRegister}
+            >
+              Create Account
+            </button>
 
           </form>
 

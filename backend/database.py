@@ -4,8 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = MongoClient(os.getenv("MONGO_URI"))
-print(os.getenv("MONGO_URI"))
+MONGO_URI = os.getenv("MONGO_URI")
 
+client = MongoClient(MONGO_URI)
+
+# your database name
 db = client["medguide"]
-reports_collection = db["reports"]
+
+# your collection name
+collection = db["users"]
