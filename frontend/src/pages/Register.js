@@ -47,7 +47,7 @@ function Register() {
     <>
       <img src={bg} className="bg-img" alt="background" />
 
-      <div className="login-container">
+      <div className="login-container" style={{ marginTop: "80px", alignItems: "flex-start" }}>
         <div className="login-card">
           <h2>Create Account</h2>
 
