@@ -2,15 +2,16 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import UploadReport from "../components/UploadReport";
 import SymptomChecker from "../components/SymptomChecker";
-import SearchMedicine from "../components/SearchMedicine";
 
 function Dashboard() {
 
   const bodyStyle = {
     display: "flex",
-    gap: "30px",
+    gap: "16px",
     width: "100%",
-    alignItems: "flex-start"
+    alignItems: "stretch",
+    marginTop: "10px",
+    height: "calc(100vh - 140px)"
   };
 
   const leftPanel = {
@@ -23,43 +24,53 @@ function Dashboard() {
     flex: 2,
     display: "flex",
     flexDirection: "column",
-    gap: "18px"
+    gap: "10px",
+    height: "100%",
+    justifyContent: "space-between"
   };
-  const rightPanel = { flex: 1 };
+  const rightPanel = { 
+    flex: 1, 
+    display: "flex",          
+    flexDirection: "column",   
+    gap: "10px",
+    justifyContent: "space-between",  
+    alignItems: "stretch",            
+    height: "100%"  
+  };
 
   const card = {
     background: "rgba(255,255,255,0.9)",
     backdropFilter: "blur(12px)",
-    padding: "18px 20px",
+    padding: "12px 14px",
     borderRadius: "18px",
-    marginBottom: "18px",
     boxShadow: "0 6px 14px rgba(0,0,0,0.08)",
     transition: "all 0.25s ease",
   };
 
   const iconBox = {
-    width: "64px",
-    height: "64px",
+    width: "48px",
+    height: "48px",
     borderRadius: "16px",
     background: "#d9ecff",
     boxShadow: "0 6px 15px rgba(0,0,0,0.06)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "0.2s ease"
+    transition: "0.2s ease",
+    flexShrink: 0 
   };
 
   const titleStyle = {
     margin: "0 0 6px 0",
     fontWeight: "600",
-    fontSize: "24px"
+    fontSize: "18px"
   };
 
   const descStyle = {
     margin: 0,
     color: "#6b7280",
-    fontSize: "15.5px",
-    lineHeight: "1.7"
+    fontSize: "13px",
+    lineHeight: "1.5"
   };
 
   const sectionHeader = {
@@ -67,8 +78,8 @@ function Dashboard() {
     alignItems: "center",
     gap: "10px",
     fontWeight: "600",
-    fontSize: "17px",
-    marginBottom: "12px"
+    fontSize: "14px",
+    marginBottom: "8px"
   };
 
   const row = {
@@ -79,9 +90,9 @@ function Dashboard() {
   };
 
   const text = {
-    fontSize: "17px",
+    fontSize: "13px",
     color: "#374151",
-    lineHeight: "1.6"
+    lineHeight: "1.5"
   };
 
   return (
@@ -90,7 +101,7 @@ function Dashboard() {
         minHeight: "100vh",
         width: "100%",
         background: "linear-gradient(135deg, #dbeafe, #bfdbfe, #e0f2fe)",
-        padding: "20px",
+        padding: "10px",
         boxSizing: "border-box",
         overflowX: "hidden"
       }}
@@ -104,7 +115,6 @@ function Dashboard() {
         <div style={leftPanel}>
           <UploadReport cardStyle={card} />
           <SymptomChecker cardStyle={card} />
-          <SearchMedicine cardStyle={card} />
         </div>
 
         {/* CENTER PANEL */}
@@ -123,8 +133,8 @@ function Dashboard() {
           >
 
             <h1 style={{
-              marginBottom: "10px",
-              fontSize: "34px",
+              marginBottom: "8px",
+              fontSize: "24px",
               fontWeight: "700"
             }}>
               What MedGuide Does
@@ -142,7 +152,7 @@ function Dashboard() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-evenly",
-                gap: "65px"
+                gap: "20px"
               }}
             >
 
@@ -274,7 +284,7 @@ function Dashboard() {
 
           {/* HEALTH TIPS */}
           <div
-            style={card}
+            style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -312,7 +322,7 @@ function Dashboard() {
 
           {/* MEDICINE ALERTS */}
           <div
-            style={card}
+            style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -343,7 +353,7 @@ function Dashboard() {
 
           {/* EMERGENCY CONTACTS */}
           <div
-            style={card}
+            style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
