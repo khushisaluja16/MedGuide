@@ -211,3 +211,37 @@ def search_medicine(name: str):
     except Exception as e:
         print("Medicine error:", e)
         return {"error": "Error fetching medicine data"}
+    
+class Profile(BaseModel):
+    email: str
+    name: str = ""
+    age: str = ""
+    gender: str = ""
+    weight: str = ""
+    height: str = ""
+    bloodGroup: str = ""
+    allergies: str = ""
+    chronicConditions: str = ""
+    currentMedications: str = ""
+    emergencyContact: str = ""
+    activityLevel: str = ""
+    smokingStatus: str = "No"
+    alcoholUse: str = "No"
+
+@app.post("/save-profile")
+def save_profile(profile: Profile):
+    profiles_col = db["profiles"]
+    profiles_col.update_one(
+        {"email": profile.email},
+        {"$set": profile.dict()},
+        upsert=True
+    )
+    return {"success": True, "message": "Profile saved"}
+
+@app.get("/get-profile")
+def get_profile(email: str):
+    profiles_col = db["profiles"]
+    profile = profiles_col.find_one({"email": email}, {"_id": 0})
+    if not profile:
+        return {"success": False, "message": "Not found"}
+    return {"success": True, "profile": profile}
