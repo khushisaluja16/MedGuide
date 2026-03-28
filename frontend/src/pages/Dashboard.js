@@ -2,8 +2,11 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import UploadReport from "../components/UploadReport";
 import SymptomChecker from "../components/SymptomChecker";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+
+  const navigate = useNavigate();
 
   const bodyStyle = {
     display: "flex",
@@ -115,13 +118,46 @@ function Dashboard() {
         <div style={leftPanel}>
           <UploadReport cardStyle={card} />
           <SymptomChecker cardStyle={card} />
+
+          {/* ✅ PREVIOUS REPORTS — left panel bottom mein */}
+          <div
+            style={{ ...card, cursor: "pointer" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "22px" }}>📁</span>
+              <h3 style={{ margin: 0 }}>Previous Reports</h3>
+            </div>
+            <p style={{ color: "#666", marginTop: "5px", fontSize: "13px" }}>
+              View your past medical reports
+            </p>
+            <button
+              onClick={() => navigate("/history")}
+              style={{
+                marginTop: "15px", width: "100%", padding: "12px",
+                background: "linear-gradient(90deg, #2b7de9, #4facfe)",
+                color: "white", border: "none", borderRadius: "12px",
+                fontWeight: "600", cursor: "pointer"
+              }}
+            >
+              View Previous Reports →
+            </button>
+          </div>
         </div>
 
         {/* CENTER PANEL */}
         <div style={centerPanel}>
 
+          {/* ✅ flex: 2 — pura center space fill karega */}
           <div
-            style={{ ...card, flex: 1 }}
+            style={{ ...card, flex: 2 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -131,42 +167,19 @@ function Dashboard() {
               e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
             }}
           >
-
-            <h1 style={{
-              marginBottom: "8px",
-              fontSize: "24px",
-              fontWeight: "700"
-            }}>
+            <h1 style={{ marginBottom: "8px", fontSize: "24px", fontWeight: "700" }}>
               What MedGuide Does
             </h1>
 
-            <hr style={{
-              border: "none",
-              height: "1px",
-              background: "#e5e7eb",
-              marginBottom: "35px"
-            }} />
+            <hr style={{ border: "none", height: "1px", background: "#e5e7eb", marginBottom: "35px" }} />
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                gap: "20px"
-              }}
-            >
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", gap: "20px" }}>
 
               {/* ITEM 1 */}
               <div style={{ display: "flex", gap: "18px" }}>
-
-                <div
-                  style={iconBox}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
+                <div style={iconBox}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
                 >
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -175,27 +188,17 @@ function Dashboard() {
                     <line x1="16" y1="20" x2="13.5" y2="17.5" />
                   </svg>
                 </div>
-
                 <div>
                   <h3 style={titleStyle}>Analyze and Save Reports</h3>
-                  <p style={descStyle}>
-                    Upload an image of a handwritten prescription to extract medicine details.
-                  </p>
+                  <p style={descStyle}>Upload an image of a handwritten prescription to extract medicine details.</p>
                 </div>
-
               </div>
 
               {/* ITEM 2 */}
               <div style={{ display: "flex", gap: "18px" }}>
-
-                <div
-                  style={iconBox}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
+                <div style={iconBox}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
                 >
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="3" width="7" height="18" rx="2" />
@@ -204,28 +207,17 @@ function Dashboard() {
                     <line x1="14" y1="14" x2="21" y2="14" />
                   </svg>
                 </div>
-
                 <div>
                   <h3 style={titleStyle}>Smart Medicine Insights</h3>
-                  <p style={descStyle}>
-                    Get detailed information on prescribed medicines, including composition,
-                    uses, and potential side effects.
-                  </p>
+                  <p style={descStyle}>Get detailed information on prescribed medicines, including composition, uses, and potential side effects.</p>
                 </div>
-
               </div>
 
               {/* ITEM 3 */}
               <div style={{ display: "flex", gap: "18px" }}>
-
-                <div
-                  style={iconBox}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
+                <div style={iconBox}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
                 >
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f6ed4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
@@ -234,57 +226,22 @@ function Dashboard() {
                     <path d="M12 2a15 15 0 0 0 0 20" />
                   </svg>
                 </div>
-
                 <div>
                   <h3 style={titleStyle}>Find Health Resources</h3>
-                  <p style={descStyle}>
-                    Find health resources, access reports, and explore health tools for clarity.
-                  </p>
+                  <p style={descStyle}>Find health resources, access reports, and explore health tools for clarity.</p>
                 </div>
-
               </div>
+
             </div>
-
           </div>
-
-          {/* PREVIOUS REPORTS */}
-          <div
-            style={card}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
-              e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0) scale(1)";
-              e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
-            }}
-          >
-
-            <h3 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              📁 Previous Reports
-            </h3>
-
-            <p style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "10px" }}>
-              <span style={{ color: "#2b7de9", fontSize: "18px" }}>📄</span>
-              12 Apr 2026 – Fever Prescription
-            </p>
-
-            <p style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ color: "#2b7de9", fontSize: "18px" }}>📄</span>
-              05 Apr 2026 – Blood Test Report
-            </p>
-
-          </div>
-
-
 
         </div>
 
+        {/* RIGHT PANEL */}
         <div style={rightPanel}>
 
           {/* HEALTH TIPS */}
-          <div
-            style={{...card, flex: 1}}
+          <div style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -294,35 +251,14 @@ function Dashboard() {
               e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
             }}
           >
-            <div style={sectionHeader}>
-              💚 <span>Health Tips</span>
-            </div>
-
-            <div style={row}>
-              <span>•</span>
-              <span style={text}>
-                Stay hydrated: Drink at least 8 glasses of water daily
-              </span>
-            </div>
-
-            <div style={row}>
-              <span>•</span>
-              <span style={text}>
-                Avoid self-medication. Consult your doctor before taking new medicines.
-              </span>
-            </div>
-
-            <div style={row}>
-              <span>•</span>
-              <span style={text}>
-                Complete the full course of antibiotics even if you feel better
-              </span>
-            </div>
+            <div style={sectionHeader}>💚 <span>Health Tips</span></div>
+            <div style={row}><span>•</span><span style={text}>Stay hydrated: Drink at least 8 glasses of water daily</span></div>
+            <div style={row}><span>•</span><span style={text}>Avoid self-medication. Consult your doctor before taking new medicines.</span></div>
+            <div style={row}><span>•</span><span style={text}>Complete the full course of antibiotics even if you feel better</span></div>
           </div>
 
           {/* MEDICINE ALERTS */}
-          <div
-            style={{...card, flex: 1}}
+          <div style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -332,28 +268,13 @@ function Dashboard() {
               e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
             }}
           >
-            <div style={sectionHeader}>
-              ⚠️ <span>Medicine Alerts</span>
-            </div>
-
-            <div style={row}>
-              ⚠️
-              <span style={text}>
-                Paracetamol: Avoid exceeding 4000 mg per day to prevent liver damage
-              </span>
-            </div>
-
-            <div style={row}>
-              ⚠️
-              <span style={text}>
-                Azithromycin might cause stomach upset (take with food)
-              </span>
-            </div>
+            <div style={sectionHeader}>⚠️ <span>Medicine Alerts</span></div>
+            <div style={row}>⚠️<span style={text}>Paracetamol: Avoid exceeding 4000 mg per day to prevent liver damage</span></div>
+            <div style={row}>⚠️<span style={text}>Azithromycin might cause stomach upset (take with food)</span></div>
           </div>
 
           {/* EMERGENCY CONTACTS */}
-          <div
-            style={{...card, flex: 1}}
+          <div style={{...card, flex: 1}}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 16px 32px rgba(0,0,0,0.12)";
@@ -363,28 +284,16 @@ function Dashboard() {
               e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,0.08)";
             }}
           >
-            <div style={sectionHeader}>
-              🚑 <span>Emergency Contacts</span>
-            </div>
-
-            <div style={row}>
-              📞 <span style={text}>Ambulance: 102</span>
-            </div>
-
-            <div style={row}>
-              🚓 <span style={text}>Emergency: 112</span>
-            </div>
-
-            <div style={row}>
-              <span style={text}>Poison Control: 1066</span>
-            </div>
+            <div style={sectionHeader}>🚑 <span>Emergency Contacts</span></div>
+            <div style={row}>📞 <span style={text}>Ambulance: 102</span></div>
+            <div style={row}>🚓 <span style={text}>Emergency: 112</span></div>
+            <div style={row}><span style={text}>Poison Control: 1066</span></div>
           </div>
 
         </div>
 
       </div>
     </div>
-  
   );
 }
 

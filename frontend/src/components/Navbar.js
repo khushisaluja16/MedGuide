@@ -12,6 +12,7 @@ function Navbar() {
   const pathMap = {
     "/dashboard": "dashboard",
     "/report":    "report",
+    "/history":   "history",
     "/profile":   "profile",
   };
   const current = pathMap[location.pathname] || "";
@@ -19,6 +20,7 @@ function Navbar() {
   const links = [
     { id: "dashboard", label: "Dashboard", path: "/dashboard" },
     { id: "report",    label: "Reports",   path: "/report"    },
+    { id: "history",   label: "History",   path: "/history"   },
     { id: "profile",   label: "Profile",   path: "/profile"   },
   ];
 
