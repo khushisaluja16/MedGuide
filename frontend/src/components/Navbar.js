@@ -31,6 +31,10 @@ function Navbar() {
     navigate("/");
   };
 
+
+  const fullName = localStorage.getItem("medguide_username") || "User";
+  const firstName = fullName.split(" ")[0];  
+
   return (
     <div
       style={{
@@ -98,7 +102,7 @@ function Navbar() {
           style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}
         >
           <span style={{ fontSize: "18px", fontWeight: "500", color: "#333" }}>
-            Welcome, <b>User</b>
+            Welcome, <b>{firstName}</b>
           </span>
           <img
             src={userImg}

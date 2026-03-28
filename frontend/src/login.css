@@ -7,7 +7,7 @@
 
 body{
 margin:0;
-height:100vh;
+min-height:100vh;
 background-color:#3b8db4;
 
 
@@ -18,9 +18,8 @@ background-repeat:no-repeat;
 
 display:flex;
 justify-content:center;
-align-items:flex-start;   /* IMPORTANT */
-
-overflow:hidden;
+align-items:flex-start;  
+overflow:auto;
 }
 
 .login-container{
@@ -29,10 +28,11 @@ overflow:hidden;
   justify-content: center;
   align-items: center;
   margin-top: 0;
-  position: fixed;
-  top: 53%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;   
+  top: auto;            
+  left: auto;            
+  transform: none;   
+  padding: 20px 0 40px; 
 }
 
 

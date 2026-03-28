@@ -23,6 +23,7 @@ function Login() {
       });
 
       if (res.data.success) {
+        localStorage.setItem("medguide_username", res.data.username);
         navigate("/dashboard");
       } else {
         setError(res.data.message);   // ← instead of alert()
@@ -38,7 +39,7 @@ function Login() {
     <>
       <img src={bg} className="bg-img" alt="background" />
 
-      <div className="login-container">
+      <div className="login-container" style={{ paddingTop: "250px" }}>
         <div className="login-card">
           <h2>Login</h2>
 

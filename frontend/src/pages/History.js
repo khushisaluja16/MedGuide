@@ -10,7 +10,7 @@ function History() {
         background: "linear-gradient(135deg, #dbeafe, #bfdbfe, #e0f2fe)",
         padding: "10px",
         boxSizing: "border-box",
-        overflowX: "hidden",
+        overflowY: "auto",
       }}
     >
       <Navbar />

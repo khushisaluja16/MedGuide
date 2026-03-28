@@ -94,7 +94,11 @@ def login(user: User):
     })
     if not existing:
         return {"success": False, "message": "Invalid credentials"}
-    return {"success": True, "message": "Login successful"}
+    return {
+        "success": True, 
+        "message": "Login successful",
+        "username": existing["name"]  
+    }
 
 
 @app.get("/")
