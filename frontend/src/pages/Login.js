@@ -6,15 +6,15 @@ import axios from "axios";
 
 function Login() {
 
-  // ✅ STATE (ONLY ONCE)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");   // ← ADD THIS
   const navigate = useNavigate();
 
-  // ✅ LOGIN FUNCTION
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");   // ← clear previous error
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/login", {
@@ -25,12 +25,12 @@ function Login() {
       if (res.data.success) {
         navigate("/dashboard");
       } else {
-        alert(res.data.message);
+        setError(res.data.message);   // ← instead of alert()
       }
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      setError("Server error. Please try again.");   // ← instead of alert()
     }
   };
 
@@ -62,12 +62,18 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-
               <i 
                 className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} eye`}
                 onClick={() => setShowPassword(!showPassword)}
               ></i>
             </div>
+
+            {/* ← ADD THIS ERROR MESSAGE */}
+            {error && (
+              <p style={{ color: "red", fontSize: "13px", marginBottom: "8px", textAlign: "center" }}>
+                ⚠️ {error}
+              </p>
+            )}
 
             <button className="login-btn">Login to MedGuide</button>
 

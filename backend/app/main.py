@@ -60,6 +60,9 @@ class User(BaseModel):
     email: str
     username: str = ""
     password: str
+    name: str = ""
+    age: int = 0
+    gender: str = ""
 
 
 # ── Auth Endpoints ────────────────────────────────────────────────
@@ -72,7 +75,10 @@ def register(user: User):
         collection.insert_one({
             "email": user.email,
             "username": user.username,
-            "password": user.password
+            "password": user.password,
+            "name": user.name,
+            "age": user.age,
+            "gender": user.gender
         })
         return {"success": True, "message": "Registered successfully"}
     except Exception as e:

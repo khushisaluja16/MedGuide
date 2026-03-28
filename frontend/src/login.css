@@ -24,21 +24,21 @@ overflow:hidden;
 }
 
 .login-container{
-width: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 0;
   position: fixed;
-  top: 50%;
+  top: 53%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 
 .login-card{
-  width:330px;
-  max-width:80%;
+  width:420px;
+  max-width:95vw;
   background:rgba(255,255,255,0.28);
   backdrop-filter:blur(1px);
   -webkit-backdrop-filter:blur(14px);
@@ -113,15 +113,16 @@ width: 100%;
 .extra-links{
   margin-top:18px;
   display:flex;
-  justify-content:space-between;
+  justify-content:center;
   gap:10px;
 }
 
 .extra-links a{
   text-decoration:none;
   font-size:14px;
-  color:#6d7f96;
+  color:#1a73e8;
   text-align: center;
+  font-weight: 700;
 }
 
 .footer-text{

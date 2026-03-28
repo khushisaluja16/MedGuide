@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import logo    from "../images/logo.png";
@@ -7,8 +7,8 @@ import userImg from "../images/user.png";
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showDropdown, setShowDropdown] = useState(false);  // ← ADD
 
-  // Auto-detect which page we're on from the URL — no props needed
   const pathMap = {
     "/dashboard": "dashboard",
     "/report":    "report",
@@ -18,9 +18,16 @@ function Navbar() {
 
   const links = [
     { id: "dashboard", label: "Dashboard", path: "/dashboard" },
-    { id: "report",   label: "Reports",   path: "/report"    },
+    { id: "report",    label: "Reports",   path: "/report"    },
     { id: "profile",   label: "Profile",   path: "/profile"   },
   ];
+
+  // ← ADD logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("medguide_profile");
+    localStorage.removeItem("medguide_email");
+    navigate("/");
+  };
 
   return (
     <div
@@ -36,8 +43,7 @@ function Navbar() {
         marginBottom: "30px"
       }}
     >
-
-      {/* LEFT: LOGO — clicking it goes to dashboard */}
+      {/* LEFT: LOGO */}
       <div
         onClick={() => navigate("/dashboard")}
         style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}
@@ -58,12 +64,9 @@ function Navbar() {
           const isActive = current === link.id;
           return (
             <React.Fragment key={link.id}>
-
-              {/* Divider between links */}
               {i > 0 && (
                 <div style={{ width: "1px", height: "20px", background: "#aaa" }} />
               )}
-
               <span
                 onClick={() => navigate(link.path)}
                 style={{
@@ -81,22 +84,57 @@ function Navbar() {
               >
                 {link.label}
               </span>
-
             </React.Fragment>
           );
         })}
       </div>
 
-      {/* RIGHT: USER */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <span style={{ fontSize: "18px", fontWeight: "500", color: "#333" }}>
-          Welcome, <b>User</b>
-        </span>
-        <img
-          src={userImg}
-          alt="User"
-          style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }}
-        />
+      {/* RIGHT: USER + DROPDOWN */}
+      <div style={{ position: "relative" }}>  {/* ← WRAP in relative div */}
+        <div
+          onClick={() => setShowDropdown(!showDropdown)}
+          style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}
+        >
+          <span style={{ fontSize: "18px", fontWeight: "500", color: "#333" }}>
+            Welcome, <b>User</b>
+          </span>
+          <img
+            src={userImg}
+            alt="User"
+            style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }}
+          />
+        </div>
+
+        {/* DROPDOWN */}
+        {showDropdown && (
+          <div style={{
+            position: "absolute",
+            top: "48px",
+            right: "0",
+            background: "#fff",
+            borderRadius: "16px",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+            minWidth: "150px",
+            zIndex: 999,
+            overflow: "hidden",
+          }}>
+            <div
+              onClick={handleLogout}
+              style={{
+                padding: "9px 16px",    
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "#e53e3e",
+                cursor: "pointer",
+                transition: "background 0.2s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = "#fff5f5"}
+              onMouseLeave={e => e.currentTarget.style.background = "#fff"}
+            >
+              Logout
+            </div>
+          </div>
+        )}
       </div>
 
     </div>

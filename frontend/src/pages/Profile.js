@@ -75,9 +75,9 @@ function Profile() {
     if (!val) return null;
     const n = parseFloat(val);
     if (n < 18.5) return { label: "Underweight", color: "#3b82f6" };
-    if (n < 25)   return { label: "Normal",      color: "#22c55e" };
-    if (n < 30)   return { label: "Overweight",  color: "#f59e0b" };
-    return              { label: "Obese",        color: "#ef4444" };
+    if (n < 25) return { label: "Normal", color: "#22c55e" };
+    if (n < 30) return { label: "Overweight", color: "#f59e0b" };
+    return { label: "Obese", color: "#ef4444" };
   };
   const bmiInfo = getBMIInfo(bmi);
 
@@ -270,9 +270,9 @@ function Profile() {
               <span style={label}>Gender</span>
               {editing
                 ? <select name="gender" value={profile.gender} onChange={handleChange} style={selectStyle}>
-                    <option value="">Select...</option>
-                    {genderOptions.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <option value="">Select...</option>
+                  {genderOptions.map(o => <option key={o}>{o}</option>)}
+                </select>
                 : <span style={valueText}>{profile.gender || <em style={{ color: "#d1d5db" }}>Not set</em>}</span>}
             </div>
 
@@ -280,9 +280,9 @@ function Profile() {
               <span style={label}>Activity Level</span>
               {editing
                 ? <select name="activityLevel" value={profile.activityLevel} onChange={handleChange} style={selectStyle}>
-                    <option value="">Select...</option>
-                    {activityLevels.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <option value="">Select...</option>
+                  {activityLevels.map(o => <option key={o}>{o}</option>)}
+                </select>
                 : <span style={valueText}>{profile.activityLevel || <em style={{ color: "#d1d5db" }}>Not set</em>}</span>}
             </div>
           </div>
@@ -312,9 +312,9 @@ function Profile() {
               <span style={label}>Blood Group</span>
               {editing
                 ? <select name="bloodGroup" value={profile.bloodGroup} onChange={handleChange} style={selectStyle}>
-                    <option value="">Select...</option>
-                    {bloodGroups.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <option value="">Select...</option>
+                  {bloodGroups.map(o => <option key={o}>{o}</option>)}
+                </select>
                 : <span style={valueText}>{profile.bloodGroup || <em style={{ color: "#d1d5db" }}>Not set</em>}</span>}
             </div>
 
@@ -322,8 +322,8 @@ function Profile() {
               <span style={label}>Smoking</span>
               {editing
                 ? <select name="smokingStatus" value={profile.smokingStatus} onChange={handleChange} style={selectStyle}>
-                    {["No","Yes","Former"].map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  {["No", "Yes", "Former"].map(o => <option key={o}>{o}</option>)}
+                </select>
                 : <span style={valueText}>{profile.smokingStatus}</span>}
             </div>
 
@@ -331,8 +331,8 @@ function Profile() {
               <span style={label}>Alcohol Use</span>
               {editing
                 ? <select name="alcoholUse" value={profile.alcoholUse} onChange={handleChange} style={selectStyle}>
-                    {["No","Occasionally","Regularly"].map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  {["No", "Occasionally", "Regularly"].map(o => <option key={o}>{o}</option>)}
+                </select>
                 : <span style={valueText}>{profile.alcoholUse}</span>}
             </div>
           </div>
@@ -348,10 +348,10 @@ function Profile() {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
               {[
-                { label: "Known Allergies",       name: "allergies",          placeholder: "e.g. Penicillin, Peanuts" },
-                { label: "Chronic Conditions",    name: "chronicConditions",  placeholder: "e.g. Diabetes, Hypertension" },
-                { label: "Current Medications",   name: "currentMedications", placeholder: "e.g. Metformin 500mg" },
-                { label: "Emergency Contact",     name: "emergencyContact",   placeholder: "Name & Phone number" },
+                { label: "Known Allergies", name: "allergies", placeholder: "e.g. Penicillin, Peanuts" },
+                { label: "Chronic Conditions", name: "chronicConditions", placeholder: "e.g. Diabetes, Hypertension" },
+                { label: "Current Medications", name: "currentMedications", placeholder: "e.g. Metformin 500mg" },
+                { label: "Emergency Contact", name: "emergencyContact", placeholder: "Name & Phone number" },
               ].map(({ label: lbl, name, placeholder }, i, arr) => (
                 <div key={name} style={{ ...row, borderBottom: i < arr.length - 2 ? "1px solid rgba(0,0,0,0.05)" : "none" }}>
                   <span style={{ ...label, minWidth: "160px" }}>{lbl}</span>
@@ -365,50 +365,20 @@ function Profile() {
 
         </div>
 
-        {/* ── BACK TO DASHBOARD + LOGOUT ── */}
-<div style={{ textAlign: "center", paddingBottom: "20px", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-  
-  <button
-    onClick={() => navigate("/dashboard")}
-    style={{
-      padding: "10px 28px", borderRadius: "10px", border: "none",
-      background: "rgba(255,255,255,0.7)", color: "#1f6ed4",
-      fontSize: "14px", fontWeight: "600", cursor: "pointer",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-    }}
-  >
-    ← Back to Dashboard
-  </button>
-
-  <button
-    onClick={() => {
-      localStorage.removeItem("medguide_profile");
-      localStorage.removeItem("medguide_email");
-      navigate("/");
-    }}
-    style={{
-      padding: "11px 40px", borderRadius: "10px", border: "none",
-      background: "rgba(255,255,255,0.85)", color: "#e53e3e",
-      fontSize: "15px", fontWeight: "800", cursor: "pointer",
-      boxShadow: "0 4px 12px rgba(229,62,62,0.15)",
-      letterSpacing: "0.3px",
-      transition: "all 0.2s",
-    }}
-    onMouseEnter={e => {
-      e.target.style.background = "#e53e3e";
-      e.target.style.color = "#fff";
-      e.target.style.boxShadow = "0 6px 18px rgba(229,62,62,0.35)";
-    }}
-    onMouseLeave={e => {
-      e.target.style.background = "rgba(255,255,255,0.85)";
-      e.target.style.color = "#e53e3e";
-      e.target.style.boxShadow = "0 4px 12px rgba(229,62,62,0.15)";
-    }}
-  >
-    Logout
-  </button>
-
-</div>
+        {/* ── BACK TO DASHBOARD ONLY ── */}
+        <div style={{ textAlign: "center", paddingBottom: "20px" }}>
+          <button
+            onClick={() => navigate("/dashboard")}
+            style={{
+              padding: "10px 28px", borderRadius: "10px", border: "none",
+              background: "rgba(255,255,255,0.7)", color: "#1f6ed4",
+              fontSize: "14px", fontWeight: "600", cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+            }}
+          >
+            ← Back to Dashboard
+          </button>
+        </div>
 
       </div>
     </div>

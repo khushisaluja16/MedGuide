@@ -10,12 +10,15 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
   const navigate = useNavigate();
 
 
   const handleRegister = async (e) => {
     if (e) e.preventDefault();
-    console.log("Register clicked"); // ✅ DEBUG
+    console.log("Register clicked");
 
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
@@ -26,13 +29,16 @@ function Register() {
       const res = await axios.post("http://127.0.0.1:8000/register", {
         username,
         email,
-        password
+        password,
+        name,
+        age: parseInt(age),
+        gender
       });
 
       console.log(res.data);
 
       if (res.data.success) {
-        navigate("/dashboard");
+        navigate("/");
       } else {
         alert(res.data.message);
       }
@@ -52,6 +58,48 @@ function Register() {
           <h2>Create Account</h2>
 
           <form>
+
+            {/* NEW: Full Name */}
+            <div className="input-box">
+              <i className="fa fa-id-card icon"></i>
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* NEW: Age */}
+            <div className="input-box">
+              <i className="fa fa-calendar icon"></i>
+              <input
+                type="number"
+                placeholder="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                min="0"
+                max="120"
+                required
+              />
+            </div>
+
+            {/* NEW: Gender */}
+            <div className="input-box">
+              <i className="fa fa-venus-mars icon"></i>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                required
+                style={{ border: "none", outline: "none", width: "100%", background: "transparent", fontSize: "14px", color: gender ? "#000" : "#aaa" }}
+              >
+                <option value="" disabled>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
 
             <div className="input-box">
               <i className="fa fa-user icon"></i>
