@@ -13,3 +13,5 @@ db = client["medguide"]
 
 # your collection name
 collection = db["users"]
+
+reports_col = db["report"]

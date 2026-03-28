@@ -1,16 +1,17 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from database import collection, db
+from app.database import collection, db
 from fastapi.middleware.cors import CORSMiddleware
 import csv
 import requests
 import os
+from app.database import reports_col
+from datetime import datetime
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -245,3 +246,123 @@ def get_profile(email: str):
     if not profile:
         return {"success": False, "message": "Not found"}
     return {"success": True, "profile": profile}
+
+# backend/app/main.py
+import os
+import re
+import shutil
+import tempfile
+from typing import List, Optional
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from .ocr import extract_text_from_image, extract_text_from_pdf
+from .parse_vitals import parse_vitals_from_text
+from .compare import compare_vitals_against_ranges
+from .openai_client import analyze_with_openai
+
+
+class AnalysisResponse(BaseModel):
+    vitals: dict
+    abnormal_vitals: List[dict]
+    llm_assessment: dict
+
+@app.post("/api/analyze", response_model=AnalysisResponse)
+async def analyze(
+    name: str = Form(...),
+    age: int = Form(...),
+    gender: str = Form(...),
+    manual_bp: Optional[str] = Form(None),  # optional manual BP like "120/80"
+    files: List[UploadFile] = File(None),
+):
+    """
+    Accepts form data + files. Returns structured vitals, abnormalities and LLM analysis.
+    """
+    # sanity checks
+    if not files or len(files) == 0:
+        raise HTTPException(status_code=400, detail="Please upload at least one file (JPEG or PDF).")
+    if gender.lower() not in ("male", "female", "other"):
+        gender = gender  # keep as-is; compare function should tolerate
+
+    tmp_dir = tempfile.mkdtemp(prefix="ai_health_")
+    try:
+        aggregated_text = ""
+        for upload in files:
+            filename = upload.filename.lower()
+            dest = os.path.join(tmp_dir, upload.filename)
+            with open(dest, "wb") as f:
+                content = await upload.read()
+                f.write(content)
+
+            if filename.endswith(".pdf"):
+                text = extract_text_from_pdf(dest)
+            else:
+                # assume image
+                text = extract_text_from_image(dest)
+            aggregated_text += "\n" + text
+
+        # parse vitals from the OCR'ed text
+        extracted_vitals = parse_vitals_from_text(aggregated_text)
+
+        # include manual BP if provided (override or supplement)
+        if manual_bp:
+            m = re.search(r"(\d{2,3})\s*/\s*(\d{2,3})", manual_bp)
+            if m:
+                extracted_vitals["blood_pressure_systolic"] = int(m.group(1))
+                extracted_vitals["blood_pressure_diastolic"] = int(m.group(2))
+
+        # include basic form data into vitals (age/gender are metadata)
+        vitals_payload = {
+            "name": name,
+            "age": int(age),
+            "gender": gender,
+            "vitals": extracted_vitals
+        }
+
+        # compare vitals to healthy ranges
+        comparison_result = compare_vitals_against_ranges(extracted_vitals, age, gender)
+
+        # create a structured list of abnormal vitals
+        abnormal_vitals = [
+            v for v in comparison_result["detailed"]
+            if v.get("value") is not None and v.get("within_range") is False
+        ]
+
+        # call LLM to get assessment
+        llm_assessment = analyze_with_openai(
+            vitals_payload,
+            comparison_result,
+            aggregated_text
+        )
+
+# 🔥 STORE IN DB
+        report_doc = {
+            "name": str(name),
+            "age": int(age),  # ✅ MUST be int
+            "gender": str(gender),
+
+            "vitals": extracted_vitals if isinstance(extracted_vitals, dict) else {},
+            "abnormal_vitals": abnormal_vitals if isinstance(abnormal_vitals, list) else [],
+
+            "llm_assessment": llm_assessment if isinstance(llm_assessment, dict) else {
+                "health_risk_assessment": "Error",
+                "possible_diseases": ["None"],
+                "preventive_measures": ["None"],
+                "lifestyle_suggestions": ["None"]
+            },
+
+            "created_at": datetime.utcnow()
+        }
+        print("LLM TYPE:", type(llm_assessment))
+
+        result = reports_col.insert_one(report_doc)
+
+        return {
+            "id": str(result.inserted_id),
+            "vitals": extracted_vitals,
+            "abnormal_vitals": abnormal_vitals,
+            "llm_assessment": llm_assessment
+        }
+    finally:
+        # cleanup
+        shutil.rmtree(tmp_dir, ignore_errors=True)
